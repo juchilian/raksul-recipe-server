@@ -3,8 +3,12 @@ from rest_framework import status
 from .serializer import RecipeSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.renderers import JSONRenderer
 
 class RecipeView(APIView):
+
+    renderer_classes = [JSONRenderer]
+
     serializer_class = RecipeSerializer
 
     def get(self, request, format=None):
@@ -20,6 +24,8 @@ class RecipeView(APIView):
         return Response({"message": "Recipe creation failed!", "required": "title, making_time, serves, ingredients, cost"}, status=status.HTTP_400_BAD_REQUEST)
 
 class RecipeDetail(APIView):
+
+    renderer_classes = [JSONRenderer]
 
     def get(self, request, pk, format=None):
         try:
