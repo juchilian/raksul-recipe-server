@@ -10,7 +10,6 @@ class RecipeView(APIView):
     def get(self, request, format=None):
         recipes = Recipe.objects.all()
         serializer = RecipeSerializer(recipes, many=True)
-        
         return Response({"recipes": serializer.data})
     
     def post(self, request, format=None):
@@ -27,6 +26,7 @@ class RecipeDetail(APIView):
             recipe = self.get_object(pk)
             serializer = RecipeSerializer(recipe)
             return Response({"message": "Recipe details by id", "recipe": [serializer.data]}, status=status.HTTP_200_OK)
+        
         except:
             return Response({ "message":"No Recipe found" }, status=status.HTTP_404_NOT_FOUND)
  
@@ -38,7 +38,6 @@ class RecipeDetail(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message": "Recipe successfully updated!", "recipe": [serializer.data]}, status=status.HTTP_200_OK)
-
             return Response({"message": "Recipe update failed!", "required": "title, making_time, serves, ingredients, cost"}, status=status.HTTP_400_BAD_REQUEST)
 
         except:
@@ -51,5 +50,6 @@ class RecipeDetail(APIView):
             recipe = self.get_object(pk)
             recipe.delete()
             return Response({"message": "Recipe successfully removed!"}, status=status.HTTP_204_NO_CONTENT)
+            
         except:
             return Response({ "message":"No Recipe found" }, status=status.HTTP_404_NOT_FOUND)
