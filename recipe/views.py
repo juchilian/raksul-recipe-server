@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 
 class RecipeView(APIView):
 
-    renderer_classes = [JSONRenderer]
+    # renderer_classes = [JSONRenderer]
 
     serializer_class = RecipeSerializer
 
@@ -29,7 +29,7 @@ class RecipeDetail(APIView):
 
     def get(self, request, pk, format=None):
         try:
-            recipe = self.get_object(pk)
+            recipe = Recipe.objects.get(pk=pk)
             serializer = RecipeSerializer(recipe)
             return Response({"message": "Recipe details by id", "recipe": [serializer.data]}, status=status.HTTP_200_OK)
         
@@ -39,7 +39,7 @@ class RecipeDetail(APIView):
 
     def patch(self, request, pk, format=None):
         try:
-            recipe = self.get_object(pk)
+            recipe = Recipe.objects.get(pk=pk)
             serializer = RecipeSerializer(recipe, data=request.data)
             if serializer.is_valid():
                 serializer.save()
@@ -53,9 +53,9 @@ class RecipeDetail(APIView):
 
     def delete(self, request, pk, format=None):
         try:
-            recipe = self.get_object(pk)
+            recipe = Recipe.objects.get(pk=pk)
             recipe.delete()
-            return Response({"message": "Recipe successfully removed!"}, status=status.HTTP_204_NO_CONTENT)
+            return Response({"message": "Recipe successfully removed!"}, status=status.HTTP_200_OK)
             
         except:
             return Response({ "message":"No Recipe found" }, status=status.HTTP_404_NOT_FOUND)
