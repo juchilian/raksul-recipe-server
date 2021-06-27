@@ -8,8 +8,13 @@ from django.http import JsonResponse
 
 
 class RecipeView(generics.ListCreateAPIView):
-    queryset = Recipe.objects.all()
     serializer_class = RecipeSerializer
+
+    def get(self, request, format=None):
+        recipes = Recipe.objects.all()
+        serializer = RecipeSerializer(recipes, many=True)
+        
+        return Response({"recipes": serializer.data})
 
 class RecipeDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Recipe.objects.all()
