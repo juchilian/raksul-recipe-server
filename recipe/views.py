@@ -3,11 +3,9 @@ from rest_framework import status
 from .serializer import RecipeSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer
-
+# from rest_framework.renderers import JSONRenderer
+from django.views.decorators.csrf import csrf_exempt
 class RecipeView(APIView):
-
-    renderer_classes = [JSONRenderer]
 
     serializer_class = RecipeSerializer
 
@@ -16,6 +14,7 @@ class RecipeView(APIView):
         serializer = RecipeSerializer(recipes, many=True)
         return Response({"recipes": serializer.data})
     
+    @csrf_exempt
     def post(self, request, format=None):
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
@@ -24,8 +23,6 @@ class RecipeView(APIView):
         return Response({"message": "Recipe creation failed!", "required": "title, making_time, serves, ingredients, cost"}, status=status.HTTP_400_BAD_REQUEST)
 
 class RecipeDetail(APIView):
-
-    renderer_classes = [JSONRenderer]
 
     def get(self, request, pk, format=None):
         try:
