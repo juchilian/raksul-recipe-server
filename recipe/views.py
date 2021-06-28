@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 
 class RecipeView(APIView):
 
-    # renderer_classes = [JSONRenderer]
+    renderer_classes = [JSONRenderer]
 
     serializer_class = RecipeSerializer
 

@@ -9,6 +9,7 @@ djangorestframework = "*"
 psycopg2 = "*"
 typing-extensions = "*"
 gunicorn = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
