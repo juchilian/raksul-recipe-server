@@ -19,7 +19,7 @@ class RecipeView(APIView):
         serializer = RecipeSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response({"message": "Recipe successfully created!", "recipes": serializer.data}, status=status.HTTP_200_OK)
+            return Response({"message": "Recipe successfully created!", "recipe": serializer.data}, status=status.HTTP_200_OK)
         return Response({"message": "Recipe creation failed!", "required": "title, making_time, serves, ingredients, cost"}, status=status.HTTP_200_OK)
 
 class RecipeDetail(APIView):
